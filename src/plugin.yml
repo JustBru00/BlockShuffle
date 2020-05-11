@@ -1,0 +1,8 @@
+name: EpicBlockShuffle
+version: 1.0
+authors: [JustBru00, Justin Brubaker]
+api-version: 1.15
+
+commands:
+  blockshuffle:
+    description: Provides a way to start, stop, and view the amount of time left before the next round.  
