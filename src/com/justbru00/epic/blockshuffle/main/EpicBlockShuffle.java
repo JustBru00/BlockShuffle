@@ -27,7 +27,7 @@ public class EpicBlockShuffle extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
-		
+		saveDefaultConfig();
 		RoundManager.loadRandomMaterials();
 		Bukkit.getPluginManager().registerEvents(new BlockShuffleListeners(), instance);
 		getCommand("blockshuffle").setExecutor(new BlockShuffleCommand());
