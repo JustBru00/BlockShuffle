@@ -22,40 +22,47 @@ public class BlockShuffleCommand implements CommandExecutor {
 					Messager.msgSender("&cPlease provide arguments after /blockshuffle <start,stop,timeleft>", sender);
 					return true;
 				}
-				
+
 				if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("start")) {
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							if (p.getGameMode().equals(GameMode.SURVIVAL))
 								p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 30, 4, false, false));
-								p.getInventory().clear();
-								RoundManager.addPlayer(p);
-							}
-						
-							RoundManager.startClock();
-							Messager.msgSender("&aStarted game!", sender);
+							p.getInventory().clear();
+							p.setFoodLevel(20);
+							p.setSaturation(10.0F);
+							p.getWorld().setTime(0);
+							RoundManager.addPlayer(p);
 						}
+
+						RoundManager.startClock();
+						Messager.msgSender("&aStarted game!", sender);
 						return true;
 					} else if (args[0].equalsIgnoreCase("stop")) {
 						RoundManager.resetAllPlayers();
 						RoundManager.stopClock();
 						Messager.msgSender("&aStopped game!", sender);
+						return true;
 					} else if (args[0].equalsIgnoreCase("timeleft")) {
-						Messager.msgSender("&6The current round has " + RoundManager.getCountdownCounter() + " seconds remaining.", sender);
+						Messager.msgSender(
+								"&6The current round has " + RoundManager.getCountdownCounter() + " seconds remaining.",
+								sender);
 						return true;
 					} else {
-						Messager.msgSender("&cPlease provide correct arguments after /blockshuffle <start,stop,timeleft>", sender);
+						Messager.msgSender(
+								"&cPlease provide correct arguments after /blockshuffle <start,stop,timeleft>", sender);
 						return true;
 					}
 				} else {
-					Messager.msgSender("&cPlease provide correct arguments after /blockshuffle <start,stop,timeleft>", sender);
+					Messager.msgSender("&cPlease provide correct arguments after /blockshuffle <start,stop,timeleft>",
+							sender);
 					return true;
 				}
 			} else {
 				Messager.msgSender("&cSorry you don't have permission.", sender);
 				return true;
 			}
+		}
 		return false;
 	}
-
 }

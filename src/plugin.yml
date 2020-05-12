@@ -2,6 +2,7 @@ name: EpicBlockShuffle
 version: 1.0
 authors: [JustBru00, Justin Brubaker]
 api-version: 1.15
+main: com.justbru00.epic.blockshuffle.main.EpicBlockShuffle
 
 commands:
   blockshuffle:

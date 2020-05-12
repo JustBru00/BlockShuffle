@@ -117,7 +117,7 @@ public class RoundManager {
 
 				// WHEN 10 SECONDS REMAIN, SHOW BOSSBAR AND COUNTDOWN
 				if (countdownCounter <= 10) {
-					showBossBarCountdown(countdownCounter, 10);
+					showBossBarCountdown(countdownCounter, 10.0);
 				} else {
 					hideBossBarCountdown();
 				}
@@ -142,7 +142,7 @@ public class RoundManager {
 		hideBossBarCountdown();
 	}
 
-	public static void showBossBarCountdown(int timeLeft, int totalTime) {
+	public static void showBossBarCountdown(int timeLeft, double totalTime) {
 		if (countdownBossBar == null) {
 			countdownBossBar = Bukkit.createBossBar(Messager.color("&cTime Remaining:"), BarColor.RED,
 					BarStyle.SEGMENTED_10);
@@ -168,8 +168,11 @@ public class RoundManager {
 		countdownBossBar.setVisible(false);
 	}
 
-	public static void playerMovedToNewBlock(Player p, Material block) {
+	public static void playerMovedToNewBlock(Player p, Material block) {		
 		RoundPlayerInfo rpi = playerInfoMap.get(p.getUniqueId());
+		if (rpi == null) {
+			return;
+		}
 
 		if (rpi.getBlockToFind().equals(block)) {
 			// FOUND THE BLOCK
