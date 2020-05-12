@@ -56,6 +56,8 @@ public class RoundManager {
 				if (countdownCounter == 0) {
 					// TIMES UP
 
+					ArrayList<UUID> toRemove = new ArrayList<UUID>();
+					
 					for (Entry<UUID, RoundPlayerInfo> entry : playerInfoMap.entrySet()) {
 						if (!entry.getValue().isBlockFound()) {
 							// FAILED ROUND
@@ -76,11 +78,18 @@ public class RoundManager {
 										}, 20);
 							}
 
-							Messager.sendBC("&c" + offline.getName() + " failed to find their block.");
-							playerInfoMap.remove(entry.getKey());
+							Messager.sendBC("&c" + offline.getName() + " failed to find their block.");		
+							toRemove.add(entry.getKey());
 						}
 					}
-
+					
+					for (UUID id : toRemove) {
+						playerInfoMap.remove(id);
+					}
+					
+					Messager.sendBC("[DEBUG] " + playerInfoMap.toString());
+					Messager.sendBC("[DEBUG] "  + playerInfoMap.size());
+					
 					if (playerInfoMap.size() == 1) {
 						// WINNER
 						for (Entry<UUID, RoundPlayerInfo> entry : playerInfoMap.entrySet()) {
@@ -133,8 +142,10 @@ public class RoundManager {
 		}, 20, 20);
 
 	}
-	
-	
+
+	public static HashMap<UUID, RoundPlayerInfo> getPlayerInfoMap() {
+		return playerInfoMap;
+	}
 
 	public static int getCountdownCounter() {
 		return countdownCounter;
@@ -179,7 +190,7 @@ public class RoundManager {
 			return;
 		}
 
-		if (rpi.getBlockToFind().equals(block)) {
+		if (rpi.getBlockToFind().equals(block) && !rpi.isBlockFound()) {
 			// FOUND THE BLOCK
 			p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0F, 1.0F);
 			playDingToAllExcept(p);
