@@ -25,18 +25,23 @@ public class BlockShuffleCommand implements CommandExecutor {
 
 				if (args.length == 1) {
 					if (args[0].equalsIgnoreCase("start")) {
-						for (Player p : Bukkit.getOnlinePlayers()) {
-							if (p.getGameMode().equals(GameMode.SURVIVAL))
-								p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 30, 4, false, false));
-							p.getInventory().clear();
-							p.setFoodLevel(20);
-							p.setSaturation(10.0F);
-							p.getWorld().setTime(0);
-							RoundManager.addPlayer(p);
-						}
+						if (RoundManager.getRoundTaskId() == -1) {
+							for (Player p : Bukkit.getOnlinePlayers()) {
+								if (p.getGameMode().equals(GameMode.SURVIVAL))
+									p.addPotionEffect(
+											new PotionEffect(PotionEffectType.REGENERATION, 30, 4, false, false));
+								p.getInventory().clear();
+								p.setFoodLevel(20);
+								p.setSaturation(10.0F);
+								p.getWorld().setTime(0);
+								RoundManager.addPlayer(p);
+							}
 
-						RoundManager.startClock();
-						Messager.msgSender("&aStarted game!", sender);
+							RoundManager.startClock();
+							Messager.msgSender("&aStarted game!", sender);
+						} else {
+							Messager.msgSender("&cGame already started.", sender);
+						}
 						return true;
 					} else if (args[0].equalsIgnoreCase("stop")) {
 						RoundManager.resetAllPlayers();

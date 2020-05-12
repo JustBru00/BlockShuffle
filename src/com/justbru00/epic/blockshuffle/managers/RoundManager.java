@@ -22,7 +22,7 @@ import com.justbru00.epic.blockshuffle.utils.Messager;
 import io.netty.util.internal.ThreadLocalRandom;
 
 public class RoundManager {
-	private static int roundTaskId;
+	private static int roundTaskId = -1;
 
 	private static ArrayList<Material> randomMaterials = new ArrayList<Material>();
 
@@ -36,6 +36,10 @@ public class RoundManager {
 		for (String s : EpicBlockShuffle.getInstance().getConfig().getStringList("randomblocks")) {
 			randomMaterials.add(Material.getMaterial(s));
 		}
+	}	
+
+	public static int getRoundTaskId() {
+		return roundTaskId;
 	}
 
 	public static void resetAllPlayers() {
@@ -140,6 +144,7 @@ public class RoundManager {
 		Bukkit.getScheduler().cancelTask(roundTaskId);
 		countdownCounter = 300;
 		hideBossBarCountdown();
+		roundTaskId = -1;
 	}
 
 	public static void showBossBarCountdown(int timeLeft, double totalTime) {
