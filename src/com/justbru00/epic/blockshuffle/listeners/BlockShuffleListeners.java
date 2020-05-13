@@ -22,7 +22,7 @@ public class BlockShuffleListeners implements Listener {
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent e) {
-		if (RoundManager.getRoundTaskId() != -1) {
+		if (RoundManager.getRoundTaskId() != -1 && !RoundManager.getPlayerInfoMap().containsKey(e.getPlayer().getUniqueId())) {
 			e.getPlayer().setGameMode(GameMode.SPECTATOR);
 		}
 	}
