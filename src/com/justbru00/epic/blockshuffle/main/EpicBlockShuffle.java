@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.justbru00.epic.blockshuffle.commands.BlockShuffleCommand;
 import com.justbru00.epic.blockshuffle.listeners.BlockShuffleListeners;
 import com.justbru00.epic.blockshuffle.managers.RoundManager;
+import com.justbru00.epic.blockshuffle.team.TeamManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
 
 public class EpicBlockShuffle extends JavaPlugin {
@@ -20,7 +21,7 @@ public class EpicBlockShuffle extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		
+		TeamManager.cleanupOnShutdown();
 		instance = null;
 	}
 

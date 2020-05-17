@@ -1,5 +1,5 @@
 name: EpicBlockShuffle
-version: 1.0.1
+version: 1.1.0
 authors: [JustBru00, Justin Brubaker]
 api-version: 1.15
 main: com.justbru00.epic.blockshuffle.main.EpicBlockShuffle
@@ -7,3 +7,4 @@ main: com.justbru00.epic.blockshuffle.main.EpicBlockShuffle
 commands:
   blockshuffle:
     description: Provides a way to start, stop, and view the amount of time left before the next round.  
+    aliases: [bs]

@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import com.justbru00.epic.blockshuffle.beans.RoundPlayerInfo;
 import com.justbru00.epic.blockshuffle.main.EpicBlockShuffle;
+import com.justbru00.epic.blockshuffle.team.TeamManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
 
 import io.netty.util.internal.ThreadLocalRandom;
@@ -46,13 +47,14 @@ public class RoundManager {
 		playerInfoMap.clear();
 	}
 
-	public static void startClock() {
+	public static void startClock() {		
 
 		roundTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(EpicBlockShuffle.getInstance(), new Runnable() {
 
 			@Override
 			public void run() {
-
+				
+				// Add all online players to the alive team.
 				if (countdownCounter == 0) {
 					// TIMES UP
 
@@ -84,11 +86,8 @@ public class RoundManager {
 					}
 					
 					for (UUID id : toRemove) {
-						playerInfoMap.remove(id);
+						playerInfoMap.remove(id);					
 					}
-					
-					Messager.sendBC("[DEBUG] " + playerInfoMap.toString());
-					Messager.sendBC("[DEBUG] "  + playerInfoMap.size());
 					
 					if (playerInfoMap.size() == 1) {
 						// WINNER
@@ -109,7 +108,7 @@ public class RoundManager {
 									.get(ThreadLocalRandom.current().nextInt(0, randomMaterials.size())));
 							entry.getValue().setBlockFound(false);
 						}
-						countdownCounter = 300;
+						countdownCounter = 300;						
 					}
 
 				}
@@ -131,6 +130,11 @@ public class RoundManager {
 							Messager.sendActionBar("&6Congrats! Your next block will be chosen next round.", Bukkit.getPlayer(entry.getKey()));
 						}
 					}
+				}
+				
+				// RESET TEAM COLORS IF TIMER IS 299 or 300
+				if (countdownCounter >= 299) {
+					TeamManager.roundStarting();
 				}
 
 				// WHEN 10 SECONDS REMAIN, SHOW BOSSBAR AND COUNTDOWN
@@ -161,6 +165,7 @@ public class RoundManager {
 		countdownCounter = 300;
 		hideBossBarCountdown();
 		roundTaskId = -1;
+		TeamManager.reset();
 	}
 
 	public static void showBossBarCountdown(int timeLeft, double totalTime) {
@@ -201,6 +206,7 @@ public class RoundManager {
 			playDingToAllExcept(p);
 			Messager.sendBC(p.getName() + " found their block.");
 			rpi.setBlockFound(true);
+			TeamManager.playerCompleted(p.getName());
 		} else {
 			// Do nothing
 		}
