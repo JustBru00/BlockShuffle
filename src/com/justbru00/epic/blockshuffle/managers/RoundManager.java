@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.GameRule;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -51,6 +52,10 @@ public class RoundManager {
 
 	public static void startClock() {	
 		Messager.sendBC("&6Round " + roundCounter + " begins...");
+		Bukkit.dispatchCommand(EpicBlockShuffle.getConsole(), "recipe give @a *");
+		Bukkit.getWorld("world").setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
+		Bukkit.getWorld("world").setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, false);
+		Bukkit.getWorld("world").setGameRule(GameRule.DO_LIMITED_CRAFTING, false);
 
 		roundTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(EpicBlockShuffle.getInstance(), new Runnable() {
 
