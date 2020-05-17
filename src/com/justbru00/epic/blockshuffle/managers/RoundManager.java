@@ -31,6 +31,8 @@ public class RoundManager {
 
 	private static BossBar countdownBossBar;
 	private static int countdownCounter = 300;
+	
+	private static int roundCounter = 1;
 
 	public static void loadRandomMaterials() {
 		randomMaterials.clear();
@@ -47,7 +49,8 @@ public class RoundManager {
 		playerInfoMap.clear();
 	}
 
-	public static void startClock() {		
+	public static void startClock() {	
+		Messager.sendBC("&6Round " + roundCounter + " begins...");
 
 		roundTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(EpicBlockShuffle.getInstance(), new Runnable() {
 
@@ -107,7 +110,10 @@ public class RoundManager {
 							entry.getValue().setBlockToFind(randomMaterials
 									.get(ThreadLocalRandom.current().nextInt(0, randomMaterials.size())));
 							entry.getValue().setBlockFound(false);
+							
 						}
+						roundCounter++;
+						Messager.sendBC("&6Round " + roundCounter + " begins...");
 						countdownCounter = 300;						
 					}
 
@@ -166,6 +172,7 @@ public class RoundManager {
 		hideBossBarCountdown();
 		roundTaskId = -1;
 		TeamManager.reset();
+		roundCounter = 1;
 	}
 
 	public static void showBossBarCountdown(int timeLeft, double totalTime) {
