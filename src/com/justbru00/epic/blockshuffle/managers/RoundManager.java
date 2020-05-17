@@ -117,14 +117,19 @@ public class RoundManager {
 				// IF NOT CONTINUE COUNTDOWN
 				// SHOW ACTION BAR WITH BLOCK
 				for (Entry<UUID, RoundPlayerInfo> entry : playerInfoMap.entrySet()) {
+					OfflinePlayer offline = Bukkit.getOfflinePlayer(entry.getKey());
 					if (!entry.getValue().isBlockFound()) {
 						Material material = entry.getValue().getBlockToFind();
 						String name = material.name().toLowerCase().replace("_", " ");
-						boolean vowel = ("aeiou".indexOf(name.charAt(0)) != -1);
-						Messager.sendActionBar(("&6Find and stand on " + (vowel ? "an " : "a ") + name + "."),
-								Bukkit.getPlayer(entry.getKey()));
+						boolean vowel = ("aeiou".indexOf(name.charAt(0)) != -1);						
+						if (offline.isOnline()) {
+							Messager.sendActionBar(("&6Find and stand on " + (vowel ? "an " : "a ") + name + "."),
+									Bukkit.getPlayer(entry.getKey()));
+						}						
 					} else {
-						Messager.sendActionBar("&6Congrats! Your next block will be chosen next round.", Bukkit.getPlayer(entry.getKey()));
+						if (offline.isOnline()) {
+							Messager.sendActionBar("&6Congrats! Your next block will be chosen next round.", Bukkit.getPlayer(entry.getKey()));
+						}
 					}
 				}
 
