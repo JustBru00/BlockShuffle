@@ -3,11 +3,13 @@ package com.justbru00.epic.blockshuffle.main;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.justbru00.epic.blockshuffle.commands.BlockShuffleCommand;
 import com.justbru00.epic.blockshuffle.listeners.BlockShuffleListeners;
+import com.justbru00.epic.blockshuffle.managers.GameAutoStartManager;
 import com.justbru00.epic.blockshuffle.managers.RoundManager;
 import com.justbru00.epic.blockshuffle.team.TeamManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
@@ -32,6 +34,16 @@ public class EpicBlockShuffle extends JavaPlugin {
 		RoundManager.loadRandomMaterials();
 		Bukkit.getPluginManager().registerEvents(new BlockShuffleListeners(), instance);
 		getCommand("blockshuffle").setExecutor(new BlockShuffleCommand());
+		
+		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+		
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new Runnable() {
+			
+			@Override
+			public void run() {
+				GameAutoStartManager.everySecond();				
+			}
+		}, 0, 20);
 		
 		Messager.msgConsole("&aEnabled!");
 	}

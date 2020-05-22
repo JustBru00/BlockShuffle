@@ -56,6 +56,7 @@ public class RoundManager {
 		Bukkit.getWorld("world").setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
 		Bukkit.getWorld("world").setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, false);
 		Bukkit.getWorld("world").setGameRule(GameRule.DO_LIMITED_CRAFTING, false);
+		Bukkit.getWorld("world").setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
 
 		roundTaskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(EpicBlockShuffle.getInstance(), new Runnable() {
 
@@ -183,6 +184,13 @@ public class RoundManager {
 		roundTaskId = -1;
 		TeamManager.reset();
 		roundCounter = 1;
+		Bukkit.getScheduler().scheduleSyncDelayedTask(EpicBlockShuffle.getInstance(), new Runnable() {
+			
+			@Override
+			public void run() {
+				Bukkit.shutdown();				
+			}
+		}, 20*10);
 	}
 
 	public static void showBossBarCountdown(int timeLeft, double totalTime) {
