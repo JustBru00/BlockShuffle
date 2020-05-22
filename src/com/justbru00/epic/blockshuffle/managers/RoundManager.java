@@ -147,6 +147,11 @@ public class RoundManager {
 				if (countdownCounter >= 299) {
 					TeamManager.roundStarting();
 				}
+				
+				// UPDATE TEAM COLORS EVERY MINUTE
+				if (countdownCounter % 30 == 1) {
+					TeamManager.update();
+				}
 
 				// WHEN 10 SECONDS REMAIN, SHOW BOSSBAR AND COUNTDOWN
 				if (countdownCounter <= 10) {

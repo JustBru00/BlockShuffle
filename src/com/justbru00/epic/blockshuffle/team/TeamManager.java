@@ -16,8 +16,8 @@ import org.bukkit.entity.Player;
  */
 public class TeamManager {
 
-	private static EpicTeam finishedPlayers = new EpicTeam("aliveplayers", ChatColor.GREEN);
-	private static EpicTeam unfinishedPlayers = new EpicTeam("failedplayers", ChatColor.RED);
+	private static EpicTeam finishedPlayers = new EpicTeam("finished", ChatColor.GREEN);
+	private static EpicTeam unfinishedPlayers = new EpicTeam("not_finished", ChatColor.RED);
 	
 	/**
 	 * Call when the game is in startup
@@ -35,6 +35,13 @@ public class TeamManager {
 	
 	public static int getAmountFinished() {
 		return finishedPlayers.getPlayers().size();
+	}
+	/**
+	 * Updates the teams just because.
+	 */
+	public static void update() {
+		finishedPlayers.update(true);
+		unfinishedPlayers.update(true);
 	}
 	
 	public static void reset() {
