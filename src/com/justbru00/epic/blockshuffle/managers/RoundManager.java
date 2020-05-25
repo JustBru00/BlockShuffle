@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 import com.justbru00.epic.blockshuffle.beans.RoundPlayerInfo;
 import com.justbru00.epic.blockshuffle.main.EpicBlockShuffle;
-import com.justbru00.epic.blockshuffle.team.TeamManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
 
 import io.netty.util.internal.ThreadLocalRandom;
@@ -94,6 +93,7 @@ public class RoundManager {
 
 							Messager.sendBC("&c" + offline.getName() + " failed to find their block.");		
 							toRemove.add(entry.getKey());
+							entry.getValue().getMaterialDisplayTeam().deleteFromServer();
 						}
 					}
 					
@@ -146,16 +146,6 @@ public class RoundManager {
 						}
 					}
 				}
-				
-				// RESET TEAM COLORS IF TIMER IS 299 or 300
-				if (countdownCounter >= 299) {
-					TeamManager.roundStarting();
-				}
-				
-				// UPDATE TEAM COLORS EVERY MINUTE
-				if (countdownCounter % 30 == 1) {
-					TeamManager.update();
-				}
 
 				// WHEN 10 SECONDS REMAIN, SHOW BOSSBAR AND COUNTDOWN
 				if (countdownCounter <= 10) {
@@ -185,8 +175,10 @@ public class RoundManager {
 		countdownCounter = 300;
 		hideBossBarCountdown();
 		roundTaskId = -1;
-		TeamManager.reset();
 		roundCounter = 1;
+		for (Entry<UUID, RoundPlayerInfo> entry : playerInfoMap.entrySet()) {
+			entry.getValue().getMaterialDisplayTeam().deleteFromServer();
+		}
 		Bukkit.getScheduler().scheduleSyncDelayedTask(EpicBlockShuffle.getInstance(), new Runnable() {
 			
 			@Override
@@ -234,7 +226,6 @@ public class RoundManager {
 			playDingToAllExcept(p);
 			Messager.sendBC(p.getName() + " found their block.");
 			rpi.setBlockFound(true);
-			TeamManager.playerCompleted(p.getName());
 		} else {
 			// Do nothing
 		}
@@ -251,7 +242,7 @@ public class RoundManager {
 	}
 
 	public static void addPlayer(Player p) {
-		RoundPlayerInfo rpi = new RoundPlayerInfo();
+		RoundPlayerInfo rpi = new RoundPlayerInfo(p.getUniqueId());
 		rpi.setBlockToFind(randomMaterials.get(ThreadLocalRandom.current().nextInt(0, randomMaterials.size())));
 		rpi.setBlockFound(false);
 

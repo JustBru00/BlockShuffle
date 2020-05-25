@@ -11,7 +11,6 @@ import com.justbru00.epic.blockshuffle.commands.BlockShuffleCommand;
 import com.justbru00.epic.blockshuffle.listeners.BlockShuffleListeners;
 import com.justbru00.epic.blockshuffle.managers.GameAutoStartManager;
 import com.justbru00.epic.blockshuffle.managers.RoundManager;
-import com.justbru00.epic.blockshuffle.team.TeamManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
 
 public class EpicBlockShuffle extends JavaPlugin {
@@ -23,7 +22,6 @@ public class EpicBlockShuffle extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		TeamManager.cleanupOnShutdown();
 		instance = null;
 	}
 
@@ -44,17 +42,6 @@ public class EpicBlockShuffle extends JavaPlugin {
 				GameAutoStartManager.everySecond();				
 			}
 		}, 0, 20);
-		
-		// FIXES ISSUE WITH TAB COLORS NOT BEING UPDATED CORRECTLY.
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(instance, new Runnable() {
-			
-			@Override
-			public void run() {
-				if (RoundManager.getRoundTaskId() == -1) {
-					TeamManager.update();
-				}				
-			}
-		}, 5, 20*30);
 		
 		Messager.msgConsole("&aEnabled!");
 	}

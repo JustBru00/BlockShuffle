@@ -18,13 +18,15 @@ import org.bukkit.scoreboard.Team;
  */
 public class EpicTeam {
 
-	private ChatColor teamColor;
+	private ChatColor glowingColor = ChatColor.WHITE;
 	private String teamName;
 	private boolean friendlyFire = false;
 	private ArrayList<String> players = new ArrayList<String>();
+	private String prefix = "";
+	private String suffix = "";
 	
-	public EpicTeam(String name, ChatColor color) {
-		teamColor = color;
+	public EpicTeam(String name, String _prefix) {
+		prefix = _prefix;
 		teamName = name;
 	}		
 	/**
@@ -44,8 +46,9 @@ public class EpicTeam {
 			
 		if (full) {
 			theTeam.setAllowFriendlyFire(friendlyFire);
-			theTeam.setPrefix(teamColor.toString());
-			theTeam.setColor(teamColor);
+			theTeam.setPrefix(prefix);
+			theTeam.setSuffix(suffix);
+			theTeam.setColor(glowingColor);
 			
 			for (String s : theTeam.getEntries()) { // First remove all players from team
 				theTeam.removeEntry(s);
@@ -68,8 +71,12 @@ public class EpicTeam {
 	}
 	
 	public void deleteFromServer() {
-		Team theTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(teamName);
-		theTeam.unregister();
+		try {
+			Team theTeam = Bukkit.getScoreboardManager().getMainScoreboard().getTeam(teamName);
+			theTeam.unregister();
+		} catch (Exception e) {
+			// fail silently
+		}	
 	}
 	
 	public void removePlayer(Player p) {
@@ -95,15 +102,38 @@ public class EpicTeam {
 	public void setPlayers(ArrayList<String> players) {
 		this.players = players;
 	}
-
-	public ChatColor getTeamColor() {
-		return teamColor;
+	/**
+	 * Just removes all players from the ArrayList.
+	 * You will need to use {@link #update(boolean)} to update teh actual scoreboard team.
+	 */
+	public void removeAllPlayers() {
+		players.clear();
 	}
-
-	public void setTeamColor(ChatColor teamColor) {
-		this.teamColor = teamColor;
+	
+	public ChatColor getGlowingColor() {
+		return glowingColor;
 	}
-
+	
+	public void setGlowingColor(ChatColor glowingColor) {
+		this.glowingColor = glowingColor;
+	}
+	
+	public String getPrefix() {
+		return prefix;
+	}
+	
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+	
+	public String getSuffix() {
+		return suffix;
+	}
+	
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+	
 	public String getTeamName() {
 		return teamName;
 	}

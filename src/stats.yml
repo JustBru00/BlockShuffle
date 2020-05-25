@@ -1,0 +1,10 @@
+#BlockShuffle Stats
+UUID:
+  found:
+    - MATERIAL_HERE
+
+difficulty:
+  round_1:
+    MATERIAL_HERE:
+      found: 0
+      failed: 0
