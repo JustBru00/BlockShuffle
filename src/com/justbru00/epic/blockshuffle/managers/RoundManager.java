@@ -34,6 +34,8 @@ public class RoundManager {
 	private static int countdownCounter = 300;
 	
 	private static int roundCounter = 1;
+	
+	private static boolean roundHasBeenPlayedBefore = false;
 
 	public static void loadRandomMaterials() {
 		randomMaterials.clear();
@@ -52,6 +54,7 @@ public class RoundManager {
 
 	public static void startClock() {	
 		Messager.sendBC("&6Round " + roundCounter + " begins...");
+		roundHasBeenPlayedBefore = true;
 		Bukkit.dispatchCommand(EpicBlockShuffle.getConsole(), "recipe give @a *");
 		Bukkit.getWorld("world").setGameRule(GameRule.SPECTATORS_GENERATE_CHUNKS, false);
 		Bukkit.getWorld("world").setGameRule(GameRule.DO_IMMEDIATE_RESPAWN, false);
@@ -253,6 +256,10 @@ public class RoundManager {
 		rpi.setBlockFound(false);
 
 		playerInfoMap.put(p.getUniqueId(), rpi);
+	}
+	
+	public static boolean hasRoundBeenPlayedBefore() {
+		return roundHasBeenPlayedBefore;
 	}
 
 }

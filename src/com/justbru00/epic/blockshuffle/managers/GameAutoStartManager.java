@@ -48,7 +48,7 @@ public class GameAutoStartManager {
 
 		if (countdown == -1) {
 			// WAITING FOR PLAYERS
-			if (RoundManager.getRoundTaskId() == -1) {
+			if (RoundManager.getRoundTaskId() == -1  && !RoundManager.hasRoundBeenPlayedBefore()) {
 				showBossBarWaitingMsg();
 			}
 		}
@@ -56,6 +56,10 @@ public class GameAutoStartManager {
 		if (countdown > -1) {
 			countdown--;
 		}		
+	}
+	
+	public static int getCountDownTimer() {
+		return countdown;
 	}
 
 	public static void startCountToGame() {

@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import com.justbru00.epic.blockshuffle.main.EpicBlockShuffle;
 import com.justbru00.epic.blockshuffle.managers.GameAutoStartManager;
 import com.justbru00.epic.blockshuffle.managers.RoundManager;
 
@@ -59,7 +60,7 @@ public class BlockShuffleListeners implements Listener {
 		
 		if (RoundManager.getRoundTaskId() == -1) {
 			// START AUTO COUNTDOWN
-			if (Bukkit.getOnlinePlayers().size() >= 2) {
+			if (Bukkit.getOnlinePlayers().size() >= 2 && GameAutoStartManager.getCountDownTimer() == -1) {
 				GameAutoStartManager.startCountToGame();
 			}
 		}
@@ -67,13 +68,19 @@ public class BlockShuffleListeners implements Listener {
 	
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent e) {
-		if (RoundManager.getRoundTaskId() == -1) {
-			// NOT INGAME
-			if (Bukkit.getOnlinePlayers().size() <= 1) {
-				// Cancel start.
-				GameAutoStartManager.cancelCountToGame();
+		Bukkit.getScheduler().scheduleSyncDelayedTask(EpicBlockShuffle.getInstance(), new Runnable() {
+			
+			@Override
+			public void run() {
+				if (RoundManager.getRoundTaskId() == -1) {
+					// NOT INGAME
+					if (Bukkit.getOnlinePlayers().size() < 2) {
+						// Cancel start.
+						GameAutoStartManager.cancelCountToGame();
+					}
+				}				
 			}
-		}
+		}, 20);
 	}
 	
 }

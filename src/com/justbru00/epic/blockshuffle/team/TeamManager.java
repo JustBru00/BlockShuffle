@@ -7,6 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
+import com.justbru00.epic.blockshuffle.managers.RoundManager;
+
 /**
  *   This Source Code Form is subject to the terms of the Mozilla Public
  *   License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -65,8 +67,10 @@ public class TeamManager {
 	}
 	
 	public static void cleanupOnShutdown() {
-		finishedPlayers.deleteFromServer();
-		unfinishedPlayers.deleteFromServer();
+		if (RoundManager.hasRoundBeenPlayedBefore()) {
+			finishedPlayers.deleteFromServer();
+			unfinishedPlayers.deleteFromServer();
+		}
 	}
 	
 }
