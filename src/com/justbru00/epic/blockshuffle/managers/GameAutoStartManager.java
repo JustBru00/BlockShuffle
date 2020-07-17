@@ -21,7 +21,7 @@ public class GameAutoStartManager {
 		
 		if (countdown >= 0) {
 			if (RoundManager.getRoundTaskId() == -1) {
-				showBossBarCountdown(countdown, 90);
+				showBossBarCountdown(countdown, 60);
 			}
 		}
 
@@ -63,7 +63,7 @@ public class GameAutoStartManager {
 	}
 
 	public static void startCountToGame() {
-		countdown = 90;
+		countdown = 60;
 	}
 
 	public static void cancelCountToGame() {

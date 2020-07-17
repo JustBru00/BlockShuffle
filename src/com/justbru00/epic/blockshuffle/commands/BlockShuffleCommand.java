@@ -19,7 +19,7 @@ public class BlockShuffleCommand implements CommandExecutor {
 		if (command.getName().equalsIgnoreCase("blockshuffle")) {
 			if (sender.hasPermission("epicblockshuffle.blockshuffle")) {
 				if (args.length == 0) {
-					Messager.msgSender("&cPlease provide arguments after /blockshuffle <start,stop,timeleft>", sender);
+					Messager.msgSender("&cPlease provide arguments after /blockshuffle <start,stop,timeleft,settime>", sender);
 					return true;
 				}
 
@@ -53,6 +53,32 @@ public class BlockShuffleCommand implements CommandExecutor {
 								"&6The current round has " + RoundManager.getCountdownCounter() + " seconds remaining.",
 								sender);
 						return true;
+					} else if (args[0].equalsIgnoreCase("settime")) {
+						if (args.length == 2) {
+							int newTime = -1;
+							
+							try {
+								newTime = Integer.parseInt(args[1]);
+							} catch (Exception e) {
+								Messager.msgSender("&cPlease provide an integer as the second argument. /blockshuffle settime <timeInSeconds>", sender);
+								return true;
+							}
+							
+							if (newTime == -1) {
+								Messager.msgSender("&cPlease provide an integer as the second argument. /blockshuffle settime <timeInSeconds>", sender);
+								return true;
+							}
+							if (RoundManager.getRoundTaskId() != -1) {
+								// INGAME
+								RoundManager.setCountdownCounter(newTime);
+							}
+							Messager.msgSender("&aSet the time remaining in this round to " + newTime + ".", sender);
+							return true;
+							
+						} else {
+							Messager.msgSender("&cYou must provide the correct arguments. /blockshuffle settime <timeInSeconds>", sender);
+							return true;
+						}
 					} else {
 						Messager.msgSender(
 								"&cPlease provide correct arguments after /blockshuffle <start,stop,timeleft>", sender);

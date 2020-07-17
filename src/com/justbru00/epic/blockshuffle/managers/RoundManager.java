@@ -123,7 +123,18 @@ public class RoundManager {
 						}
 						roundCounter++;
 						Messager.sendBC("&6Round " + roundCounter + " begins...");
-						countdownCounter = 300;						
+						
+						if (roundCounter >= 4 && roundCounter < 7) {
+							// SHORTEN ROUND TIME
+							countdownCounter = 240;
+							Messager.sendTitleToAll("&r", "&7&oYou have 4 minutes to complete this round.");
+						} else if (roundCounter >= 7) {
+							// SHORTEN ROUND TIME MORE
+							countdownCounter = 180;
+							Messager.sendTitleToAll("&r", "&7&oYou have 3 minutes to complete this round.");
+						} else {
+							countdownCounter = 300;	
+						}				
 					}
 
 				}
@@ -168,6 +179,12 @@ public class RoundManager {
 
 	public static int getCountdownCounter() {
 		return countdownCounter;
+	}
+	
+	
+
+	public static void setCountdownCounter(int countdownCounter) {
+		RoundManager.countdownCounter = countdownCounter;
 	}
 
 	public static void stopClock() {
