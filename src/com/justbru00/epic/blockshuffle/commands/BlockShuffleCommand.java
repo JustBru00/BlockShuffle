@@ -23,7 +23,7 @@ public class BlockShuffleCommand implements CommandExecutor {
 					return true;
 				}
 
-				if (args.length == 1) {
+				if (args.length >= 1) {
 					if (args[0].equalsIgnoreCase("start")) {
 						if (RoundManager.getRoundTaskId() == -1) {
 							for (Player p : Bukkit.getOnlinePlayers()) {
