@@ -12,6 +12,7 @@ import com.justbru00.epic.blockshuffle.listeners.BlockShuffleListeners;
 import com.justbru00.epic.blockshuffle.managers.GameAutoStartManager;
 import com.justbru00.epic.blockshuffle.managers.RoundManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
+import com.justbru00.epic.blockshuffle.utils.PluginFile;
 
 public class EpicBlockShuffle extends JavaPlugin {
 
@@ -19,6 +20,7 @@ public class EpicBlockShuffle extends JavaPlugin {
 	private static ConsoleCommandSender console = Bukkit.getConsoleSender();
 	private static Logger logger = Bukkit.getLogger();
 	private static String prefix = Messager.color("&8[&bEpic&fBlockShuffle&8] &6");
+	private static PluginFile stats = null;
 	
 	@Override
 	public void onDisable() {
@@ -29,6 +31,8 @@ public class EpicBlockShuffle extends JavaPlugin {
 	public void onEnable() {
 		instance = this;
 		saveDefaultConfig();
+		stats = new PluginFile(this, "stats.yml", "stats.yml");
+		
 		RoundManager.loadRandomMaterials();
 		Bukkit.getPluginManager().registerEvents(new BlockShuffleListeners(), instance);
 		getCommand("blockshuffle").setExecutor(new BlockShuffleCommand());
@@ -62,5 +66,8 @@ public class EpicBlockShuffle extends JavaPlugin {
 		return prefix;
 	}
 	
+	public static PluginFile getStatsFile() {
+		return stats;
+	}
 	
 }

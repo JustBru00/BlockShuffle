@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 
 import com.justbru00.epic.blockshuffle.beans.RoundPlayerInfo;
 import com.justbru00.epic.blockshuffle.main.EpicBlockShuffle;
+import com.justbru00.epic.blockshuffle.stats.StatsManager;
 import com.justbru00.epic.blockshuffle.utils.Messager;
 
 import io.netty.util.internal.ThreadLocalRandom;
@@ -72,6 +73,10 @@ public class RoundManager {
 					ArrayList<UUID> toRemove = new ArrayList<UUID>();
 					
 					for (Entry<UUID, RoundPlayerInfo> entry : playerInfoMap.entrySet()) {
+						// Stats logic
+						StatsManager.singlePlayerEndOfRoundBlockStats(entry.getValue().getBlockToFind(), roundCounter, entry.getValue().isBlockFound(), entry.getKey());
+						
+						// Failed player logic
 						if (!entry.getValue().isBlockFound()) {
 							// FAILED ROUND
 							OfflinePlayer offline = Bukkit.getOfflinePlayer(entry.getKey());

@@ -1,5 +1,5 @@
 name: EpicBlockShuffle
-version: 1.1.0
+version: 1.2.0-INDEV
 authors: [JustBru00, Justin Brubaker]
 api-version: 1.15
 main: com.justbru00.epic.blockshuffle.main.EpicBlockShuffle
